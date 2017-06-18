@@ -57,19 +57,38 @@ class Usuario{
 			":LOGIN" => $login, 
 			":SENHA" => $senha));
 		//Depois de logar, seta os dados na classe usuário
-		if($usuario != null){ 
-			$this->setId($usuario[0]["idUsuario"]);
-			$this->setNome($usuario[0]["nomeUsuario"]);
-			$this->setLogin($usuario[0]["loginUsuario"]);
-			$this->setSenha($usuario[0]["senhaUsuario"]);
-			$this->setCargo($usuario[0]["idCargo"]);
-
+		if(isset($usuario[0])){ 
+			$this->setters($usuario[0]);
 			return TRUE;
 		}else{
 			return FALSE;
 		}
 	}
 	//----------------------------------
+	//Função para carregar um usuário pelo ID
+	public function loadById($id){
+		$query = "SELECT * FROM usuario WHERE idUsuario = :ID";
+		$conn = new Sql();
+		$usuario = $conn->select($query, array(
+			":ID" => $id));
+		//Depois de logar, seta os dados na classe usuário
+		if(isset($usuario[0])){ 
+			$this->setters($usuario[0]);
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
+	//---------------------------------
+	//Função para chamar os setters quando carregar um usuário
+	private function setters($dados){
+		$this->setId($dados["idUsuario"]);
+		$this->setNome($dados["nomeUsuario"]);
+		$this->setLogin($dados["loginUsuario"]);
+		$this->setSenha($dados["senhaUsuario"]);
+		$this->setCargo($dados["idCargo"]);
+	}
+	//-----------------------------------
 
 }
 
