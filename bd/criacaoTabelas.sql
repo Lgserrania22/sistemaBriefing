@@ -1,9 +1,9 @@
 CREATE TABLE cargo(
-	idCargo INT NOT NULL PRIMARY KEY,
+	idCargo INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	nomeCargo VARCHAR(20) NOT NULL
 );
 CREATE TABLE usuario(
-	idUsuario INT NOT NULL PRIMARY KEY,
+	idUsuario INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	nomeUsuario VARCHAR(50) NOT NULL,
 	loginUsuario VARCHAR(20) NOT NULL,
 	senhaUsuario VARCHAR(20) NOT NULL,
@@ -11,18 +11,18 @@ CREATE TABLE usuario(
 	FOREIGN KEY usuario(idCargo) REFERENCES cargo(idCargo) ON UPDATE CASCADE
 );
 CREATE TABLE cliente(
-	idCliente INT NOT NULL PRIMARY KEY,
+	idCliente INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	nomeCliente VARCHAR(30) NOT NULL,
 	empresaCliente VARCHAR(30) DEFAULT NULL,
 	emailCliente VARCHAR(30) DEFAULT NULL,
 	telefoneCliente VARCHAR(20) DEFAULT NULL
 );
 CREATE TABLE pergunta(
-	idPergunta INT NOT NULL PRIMARY KEY,
+	idPergunta INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	textoPergunta VARCHAR(100) NOT NULL
 );
 CREATE TABLE projeto(
-	idProjeto INT NOT NULL PRIMARY KEY,
+	idProjeto INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	idCliente INT NOT NULL,
 	idUsuario INT NOT NULL,
 	nomeProjeto VARCHAR(30) NOT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE projeto(
 	FOREIGN KEY projeto_usuario(idUsuario) REFERENCES usuario(idUsuario) ON UPDATE CASCADE
 );
 CREATE TABLE briefing(
-	idBriefing INT NOT NULL PRIMARY KEY,
+	idBriefing INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	idProjeto INT NOT NULL,
 	dataBriefing DATETIME NOT NULL,
 	previsaoEntrega DATETIME,
@@ -45,7 +45,7 @@ CREATE TABLE pergunta_briefing(
 	idBriefing INT NOT NULL,
 	idPergunta INT NOT NULL,
 	respostaPergunta VARCHAR(200) NOT NULL,
-	PRIMARY KEY (idBriefing, idPergunta)projeto,
+	PRIMARY KEY (idBriefing, idPergunta),
 	FOREIGN KEY pergunta_briefing_briefing(idBriefing) REFERENCES briefing(idBriefing) ON DELETE CASCADE ON UPDATE CASCADE,
 	FOREIGN KEY pergunta_briefing_pergunta(idPergunta) REFERENCES pergunta(idPergunta) ON DELETE CASCADE ON UPDATE CASCADE
 );

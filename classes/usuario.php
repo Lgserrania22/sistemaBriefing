@@ -45,7 +45,12 @@ class Usuario{
 		return $this->senha;
 	}
 	public function getCargo(){
-		return $this->cargo;
+		$query = "SELECT nomeCargo FROM cargo WHERE idCargo = :ID";
+		$conn = new Sql();
+		$nomeCargo = $conn->select($query, array(
+			":ID" => $this->id
+			));
+		return $nomeCargo[0]["nomeCargo"];
 	}
 	//------------------------------------
 
@@ -89,7 +94,38 @@ class Usuario{
 		$this->setCargo($dados["idCargo"]);
 	}
 	//-----------------------------------
-
+	//Função para inserir um usuário-----
+	public function insertUsuario($nome, $login, $senha, $cargo){
+		$testeLogin = $this->testaLogin($login);
+		if($testeLogin){
+			return FALSE;
+		}else{
+			$query = "INSERT INTO usuario(nomeUsuario, loginUsuario, senhaUsuario, idCargo) VALUES (:NOME, :LOGIN, :SENHA, :CARGO)";
+			$conn = new Sql();
+			$conn->query($query, array(
+				":NOME" => $nome,
+				":LOGIN" => $login,
+				":SENHA" => $senha,
+				":CARGO" => $cargo
+				));
+			return TRUE;
+		}
+	}
+	//-----------------------------------
+	//Função para ver se já existe um usuário com aquele login
+	public function testaLogin($login){
+		$query = "SELECT * FROM usuario WHERE loginusuario = :LOGIN";
+		$conn = new Sql();
+		$usuario = $conn->select($query, array(
+			":LOGIN" => $login
+			));
+		if(count($usuario) > 0){
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
+	//---------------------------------
 }
 
 ?>
